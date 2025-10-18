@@ -4,6 +4,7 @@
 #include <cmath>
 #include "dynamic_array.h"
 #include "Stack.h"
+#include <clocale>
 
 using std::string;
 using std::cout;

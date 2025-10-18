@@ -30,6 +30,3 @@ public:
 	bool empty();
 };
 #include "List.hpp"
-
-
-
