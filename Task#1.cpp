@@ -4,6 +4,7 @@
 #include <cmath>
 #include "dynamic_array.h"
 #include "Stack.h"
+#include <Windows.h>
 #include <clocale>
 
 using std::string;
@@ -50,7 +51,7 @@ dynamic_array<string> infix_to_rpn(dynamic_array<string>& tokens) {
 			op_stack.push(token);
 		}
 		else if (is_operator(token)) {
-			while (!op_stack.empty() && is_operator(op_stack.top()) && get_precedence(op_stack.top()) >= get_precedence(token)) {
+			while (!op_stack.empty()  && (get_precedence(op_stack.top()) >= get_precedence(token))&&(token!="^")) {
 				output.push_back(op_stack.top());
 				op_stack.pop();
 			}
@@ -64,7 +65,12 @@ dynamic_array<string> infix_to_rpn(dynamic_array<string>& tokens) {
 				output.push_back(op_stack.top());
 				op_stack.pop();
 			}
+
 			if (!op_stack.empty() && op_stack.top() == "(") {
+				op_stack.pop();
+			}
+			if (!op_stack.empty() && is_function(op_stack.top())) {
+				output.push_back(op_stack.top());
 				op_stack.pop();
 			}
 		}
@@ -115,7 +121,7 @@ float evaluate_rpn(dynamic_array<string>& rpn) {
 }
 
 int main() {
-	std::setlocale(LC_ALL, "ru");
+	SetConsoleOutputCP(CP_UTF8);
 
 	cout << "Введите выражение (через пробел)\n";
 	string expression;
